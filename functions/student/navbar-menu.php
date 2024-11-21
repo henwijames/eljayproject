@@ -5,22 +5,22 @@
             <span class="visually-hidden">Toggle navigation</span>
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navcol-1">
-        <ul class="navbar-nav">
+            <ul class="navbar-nav">
                 <!-- Gallery Link -->
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="../student/index.php">Home</a> <!-- Replace with the correct gallery page URL -->
+                    <a class="nav-link text-white" href="../student/gallery.php">Home</a> <!-- Replace with the correct gallery page URL -->
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <!-- Gallery Link -->
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="gallery.php">Gallery</a> <!-- Replace with the correct gallery page URL -->
+                    <a class="nav-link text-white" href="index.php">Update Profile</a> <!-- Replace with the correct gallery page URL -->
                 </li>
             </ul>
-            
-            <button class="btn rounded-3 ms-auto shadow-sm" data-bss-hover-animate="pulse" type="button" data-bs-target="#sign-out" data-bs-toggle="modal">
+
+            <button class="btn rounded-3 ms-auto shadow-sm text-white" data-bss-hover-animate="pulse" type="button" data-bs-target="#sign-out" data-bs-toggle="modal">
                 <i class="fas fa-lock"></i>&nbsp;Sign out
             </button>
         </div>

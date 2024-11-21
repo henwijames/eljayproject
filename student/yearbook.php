@@ -23,12 +23,6 @@ $batchStmt->bind_param("i", $batch_id);
 $batchStmt->execute();
 $batchResult = $batchStmt->get_result();
 
-if ($batchResult && $batchResult->num_rows > 0) {
-    $batch = $batchResult->fetch_assoc();
-    $startYear = $batch['year'];
-} else {
-    $startYear = 'Not Available';
-}
 
 // Modify SQL query to filter students by selected course and active status
 $studentsQuery = "
@@ -93,14 +87,15 @@ if ($coursesResult && $coursesResult->num_rows > 0) {
 $coursesStmt->close();
 
 
-mysqli_close($conn);
+
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Alumni Management System</title>
     <meta name="twitter:image" content="https://student.lemerycolleges.edu.ph/images/favicon.png">
@@ -114,7 +109,7 @@ mysqli_close($conn);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    
+
     <title>Yearbook - <?= htmlspecialchars($startYear) ?></title>
     <style>
         /* General Styles */
@@ -124,7 +119,8 @@ mysqli_close($conn);
             color: #333;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             font-family: 'Poppins', sans-serif;
             color: #2c3e50;
         }
@@ -165,13 +161,22 @@ mysqli_close($conn);
         .search-bar {
             margin-bottom: 30px;
         }
+
         .line {
             background-color: #5072A7;
             height: 10px;
         }
+
         nav.navbar.navbar-expand-md.shadow {
-    background-color: #102C57;
-}
+            background-color: #102C57;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+        }
     </style>
     <script>
         // Search and filter students by course
@@ -215,102 +220,146 @@ mysqli_close($conn);
         }
     </script>
 </head>
+
 <body>
-<?php include_once '../functions/student/navbar-menu.php'; ?>
-<div class="wrapper">
-    <div class="container">   
-     
-        <div class="d-flex justify-content-between align-items-center mb-4">
-        <img src="../assets/img/navbar.png" alt="Logo" style="height: 80px; margin-right: 20px;">
-            
-            <h1>Yearbook for Batch (<?= htmlspecialchars($startYear) ?>)</h1>
-            <div class="mt-4 text-center">
-            <button onclick="window.location.href='gallery.php'" class="btn btn-link text-primary">
-                <i class="fas fa-arrow-left" style="font-size: 1.5rem;"></i>
-            </button>
-                <a href="print_all.php?batch=<?= $batch_id ?>" class="btn btn-secondary">Print All Data</a>
-            </div>
-        </div>
+    <?php include_once '../functions/student/navbar-menu.php'; ?>
+    <div class="wrapper">
+        <div class="container">
 
-        <!-- Search and Dropdown -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <input type="text" id="student-search" class="form-control" placeholder="Search for a student..." oninput="filterStudents()">
-            </div>
-            <div class="col-md-6">
-                <select id="course-filter" class="form-select" onchange="handleCourseChange()">
-                    <option value="all" <?= $selectedCourse === 'all' ? 'selected' : '' ?>>All Courses</option>
-                    <?php foreach ($coursesList as $course): ?>
-                        <option value="<?= htmlspecialchars($course['name']) ?>" <?= $selectedCourse === $course['name'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($course['name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                    <option value="all_with_achievements" <?= $selectedCourse === 'all_with_achievements' ? 'selected' : '' ?>>All with Achievements</option>
-                </select>
-            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <button onclick="window.location.href='gallery.php'" class="btn btn-link">
+                        <i class="fas fa-arrow-left" style="font-size: 1.5rem; color:#102C57;"></i>
+                    </button>
+                    <h1>Yearbook</h1>
+                </div>
 
-        </div>
+                <div class=" text-center">
 
-        <?php foreach ($studentsByCourse as $courseName => $students): ?>
-            <div class="course-section">
-                <h2 class="mt-4"><?= htmlspecialchars($courseName) ?></h2>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-                    <?php foreach ($students as $student): ?>
-                        <div class="col">
-                            <div class="card h-100">
-                                <div
-                                    class="card-img-top"
-                                    style="
-                                        background-image: url('<?= !empty($student['profile_pic']) ? (preg_match('/data:image/i', $student['profile_pic']) ? $student['profile_pic'] : '../student/images/'.$student['profile_pic']) : 'default-avatar.jpg' ?>');
-                                        background-size: cover;
-                                        background-position: center;
-                                        height: 250px;
-                                    "
-                                ></div>
-                                <div class="line"></div>
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= htmlspecialchars($student['lastname']) ?>, <?= htmlspecialchars($student['firstname']) ?></h5>
-                                    <p class="card-text"><em><?= htmlspecialchars($student['present_address']) ?></em></p>
-                                    <p class="card-text"><em><?= htmlspecialchars($student['birthdate']) ?></em></p>
-                                    <p class="card-text"><em><?= htmlspecialchars($student['motto']) ?></em></p>
-                                    <p class="card-text"><?= htmlspecialchars($student['major_name']) ?></p>
-                                    
-                                    <?php if ($selectedCourse === 'all_with_achievements' && !empty($student['achievement_description'])): ?>
-                                        <p class="card-text text-success">
-                                            <i class="fas fa-trophy"></i> <?= htmlspecialchars($student['achievement_description']) ?>
-                                        </p>
-                                    <?php endif; ?>
+                    <a href="print_all.php?batch=<?= $batch_id ?>" class="btn text-white" style="background-color:#102C57;">Print All Data</a>
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <?php
+                    $sql = "SELECT * FROM courses";
+                    $result = mysqli_query($conn, $sql);
+                    foreach ($result as $row) {
+                        $courseID = $row["id"];
+                    ?>
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne<?php echo $courseID ?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                                <h5><?= $row["name"] ?></h5>
+
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne<?php echo $courseID ?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+
+                                <div class="course-section">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 overflow-y-auto">
+                                        <?php
+                                        $sqlstu = "SELECT * FROM students WHERE course = '$courseID'";
+                                        $resultstu = mysqli_query($conn, $sqlstu);
+                                        foreach ($resultstu as $trow) {
+                                        ?>
+                                            <div class="col">
+                                                <div class="card h-100">
+                                                    <div
+                                                        class="card-img-top"
+                                                        style="
+                                                        background-image: url('<?= !empty($trow['profile_pic']) ? (preg_match('/data:image/i', $trow['profile_pic']) ? $trow['profile_pic'] : '../student/images/' . $trow['profile_pic']) : 'default-avatar.jpg' ?>');
+                                                        background-size: cover;
+                                                        background-position: center;
+                                                        height: 150px;
+                                                    "></div>
+                                                    <div class="line"></div>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><?= htmlspecialchars($trow['lastname']) ?>, <?= htmlspecialchars($trow['firstname']) ?></h5>
+                                                        <p class="card-text"><em><?= htmlspecialchars($trow['present_address']) ?></em></p>
+                                                        <p class="card-text"><em><?= htmlspecialchars($trow['birthdate']) ?></em></p>
+                                                        <p class="card-text">
+                                                            <em>
+                                                                <?php
+                                                                if (isset($trow['motto'])) {
+                                                                    echo '"' . htmlspecialchars($trow['motto']) . '"';
+                                                                } else {
+                                                                    echo "No Motto Inserted";
+                                                                }
+                                                                ?>
+                                                            </em>
+                                                        </p>
+                                                        <p class="card-text">
+                                                            <?php $major = $trow['major_id'];
+                                                            $msql = "SELECT * FROM majors WHERE id = '$major'";
+                                                            $mres = mysqli_query($conn, $msql);
+                                                            $mrow = mysqli_fetch_assoc($mres);
+                                                            echo @$mrow['major_name'];
+
+                                                            ?>
+                                                        </p>
+                                                        <p class="card-text text-success">
+                                                            <i class="fas fa-trophy"></i>
+                                                            <?php $ach = $trow['achievement_id'];
+                                                            $achsql = "SELECT * FROM achievements WHERE id = '$ach'";
+                                                            $achres = mysqli_query($conn, $achsql);
+                                                            $acrow = mysqli_fetch_assoc($achres);
+                                                            echo @$acrow["name"];
+                                                            ?>
+                                                        </p>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php
+                    }
+
+                    ?>
+
+
+
+
                 </div>
             </div>
-        <?php endforeach; ?>
-
+        </div>
     </div>
-</div>
-
-
-<!-- Footer -->
-<footer class="text-center mt-4 py-4" style="background-color: #2c3e50; color: white;">
-    <div class="container">
-        <p class="mb-0">© <?= date('Y') ?> Yearbook. All rights reserved.</p>
-        <p>
-            <a href="privacy_policy.php" class="text-light">Privacy Policy</a> |
-            <a href="terms_of_service.php" class="text-light">Terms of Service</a>
-        </p>
+    <div class="modal fade" role="dialog" tabindex="-1" id="sign-out">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sign out</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to sign out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" type="button" href="../functions/logout.php">Sign out</a>
+                </div>
+            </div>
+        </div>
     </div>
-</footer>
-<script>
-    // Reload the page when a course is selected to apply filtering
-function handleCourseChange() {
-    const selectedCourse = document.getElementById('course-filter').value;
-    const batchId = <?= $batch_id ?>;
-    window.location.href = `?batch=${batchId}&course=${selectedCourse}`;
-}
-
-</script>
+    <script>
+        // Reload the page when a course is selected to apply filtering
+        function handleCourseChange() {
+            const selectedCourse = document.getElementById('course-filter').value;
+            const batchId = <?= $batch_id ?>;
+            window.location.href = `?batch=${batchId}&course=${selectedCourse}`;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
-</html>
 
+</html>
+<?php
+mysqli_close($conn);
+?>

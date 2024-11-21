@@ -1,6 +1,6 @@
 <?php
 include_once '../connection.php';
-require_once 'phpqrcode/qrlib.php'; 
+require_once 'phpqrcode/qrlib.php';
 
 $path = 'qrcodes/';
 if (!is_dir($path)) {
@@ -99,7 +99,7 @@ $stmt->bindParam(':major_id', $major_id);
 $stmt->bindParam(':profile_pic', $profile_pic);
 
 if ($stmt->execute()) {
-    QRcode::png($username, $qrcode, 'H', 4, 4);
+    // QRcode::png($username, $qrcode, 'H', 4, 4);
     header('Location: ../../index.php?type=success&message=' . urlencode('Successfully Registered - Please check your email and wait for the administrators approval. '));
 } else {
     $errorInfo = $stmt->errorInfo();
@@ -109,4 +109,3 @@ if ($stmt->execute()) {
 
 // Close the connection
 $db = null;
-?>

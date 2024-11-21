@@ -66,18 +66,18 @@ if (isset($_SESSION['username'])) {
         /* Green */
     }
 </style>
-</style>
 <header id="header" class="fixed-top">
     <div class="container-fluid bs">
         <div class="container d-flex justify-content-between align-items-center">
             <div id="logo">
-                <a href="index.php">
-                    <img src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="Lemery College Logo">
+                <img src="https://student.lemerycolleges.edu.ph/images/favicon.png" alt="Lemery College Logo">
+                <a href="index.php" class="text-white">
+
                     Web-based Alumni Yearbook
                 </a>
             </div>
             <div class="right">
-                <button class="btn rounded-3 ms-4 shadow-sm"
+                <button class="btn rounded-3 ms-4 shadow-sm text-white"
                     data-bss-hover-animate="pulse"
                     type="button"
                     data-bs-target="#register"
@@ -85,7 +85,7 @@ if (isset($_SESSION['username'])) {
                     aria-label="Login Button">
                     &nbsp;Register
                 </button>
-                <button class="btn btn rounded-3 ms-4 shadow-sm"
+                <button class="btn btn rounded-3 ms-4 shadow-sm text-white"
                     data-bss-hover-animate="pulse"
                     type="button"
                     data-bs-target="#login"
@@ -115,7 +115,7 @@ if (isset($_SESSION['username'])) {
 <body>
     <section id="hero">
         <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
-            <h1 style=color:#006BFF;>Welcome LCIANS Alumni's</h1>
+            <h1 style=color:#006BFF;>Welcome LCIANS Alumni</h1>
             <h2>The Right Choice</h2>
             <a href="portal/index.php" class="btn-get-started">Go to Portal</a>
         </div>

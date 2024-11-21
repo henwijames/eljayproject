@@ -2,13 +2,15 @@
 include_once '../conn.php';
 
 // Function to generate a random username
-function generateUsername($firstname, $lastname) {
+function generateUsername($firstname, $lastname)
+{
     $randomNumber = rand(100, 999);
     return strtolower($firstname . '.' . $lastname . $randomNumber);
 }
 
 // Function to generate a random password
-function generatePassword($length = 8) {
+function generatePassword($length = 8)
+{
     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     return substr(str_shuffle($characters), 0, $length);
 }
@@ -21,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $birthdate = $_POST['birthdate'];
     $present_address = $_POST['present_address'];
     $course_id = $_POST['course'];
-    $civil_status = $_POST['civil'];
     $batch_id = $_POST['batch'];
     $motto = $_POST['motto'];
     $achievement_id = isset($_POST['achievement_id']) && !empty($_POST['achievement_id']) ? $_POST['achievement_id'] : NULL;
@@ -55,10 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user_id = $user_stmt->insert_id;
 
         // Step 4: Insert into `students` table with the `user_id`
-        $student_sql = "INSERT INTO students (user_id, firstname, lastname, birthdate, present_address, course, civil, batch, motto, profile_pic, achievement_id, status, alumni_status) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $student_sql = "INSERT INTO students (user_id, firstname, lastname, birthdate, present_address, course, batch, motto, profile_pic, achievement_id, status) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $student_stmt = $conn->prepare($student_sql);
-        $student_stmt->bind_param("issssssssssss", $user_id, $firstname, $lastname, $birthdate, $present_address, $course_id, $civil_status, $batch_id, $motto, $target_file, $achievement_id, $status, $alumni_status);
+        $student_stmt->bind_param("issssssssss", $user_id, $firstname, $lastname, $birthdate, $present_address, $course_id, $batch_id, $motto, $target_file, $achievement_id, $status);
 
         if ($student_stmt->execute()) {
             // Success: Redirect or show success message
@@ -76,4 +77,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_stmt->close();
     $conn->close();
 }
-?>
