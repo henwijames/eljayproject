@@ -31,6 +31,27 @@ if (isset($_POST['loaddata'])) {
 }
 
 
+$queryCourse = "SELECT * FROM courses WHERE id = $c";
+$resCourse = mysqli_query($conn, $queryCourse);
+if($resCourse) {
+    $courseData = mysqli_fetch_assoc($resCourse);
+    if(!$courseData) {
+        echo "No Course found with ID $c.";
+    }
+}else {
+    echo 'Error in query. ' . mysqli_error($conn);
+}
+$queryBatch = "SELECT * FROM batch WHERE id = $b";
+$resBatch = mysqli_query($conn, $queryBatch);
+if($resBatch) {
+    $batchData = mysqli_fetch_assoc($resBatch);
+    if(!$batchData) {
+        echo "No Course found with ID $b.";
+    }
+}else {
+    echo 'Error in query. ' . mysqli_error($conn);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -77,7 +98,7 @@ if (isset($_POST['loaddata'])) {
                             <section>
                                 <div class="container-fluid">
                                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                                        <h3 class="text-dark mb-2">Gallery Management</h3>
+                                        <h3 class="text-dark mb-2"><?php echo htmlspecialchars($courseData["name"]); ?> - <?php echo htmlspecialchars($batchData["year"]); ?></h3>
                                         <!-- Modal trigger button -->
                                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button>
                                     </div>
@@ -146,19 +167,8 @@ if (isset($_POST['loaddata'])) {
                                         <span id="error-message"></span>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
-                                    <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
+                                    <form class="needs-validation" action="addGaller.php" method="post" enctype="multipart/form-data" novalidate>
                                         <div class="d-flex flex-column align-items-center mb-4"></div>
-
-                                        <!-- Selected Student Info -->
-                                        <!-- <div id="selectedStudentInfo" class="mb-3">
-                    <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
-                    <h5 id="studentName">Select a student</h5>
-                    <p id="studentMotto">Motto will be displayed here.</p>
-                </div> -->
-
-                                        <!-- Hidden Field to Store Selected Student ID -->
-                                        <input type="hidden" name="student_id" id="studentId" value="">
-
                                         <!-- Achievement Dropdown -->
                                         <div class="mb-3">
 
@@ -185,13 +195,13 @@ if (isset($_POST['loaddata'])) {
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="firstname1" type="text" name="firstname" placeholder="Firstname" required>
+                                                    <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
                                                     <label class="form-label" for="firstname">Firstname:</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="lastname1" type="text" name="lastname" placeholder="Lastname" required>
+                                                    <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
                                                     <label class="form-label" for="lastname">Lastname:</label>
                                                 </div>
                                             </div>
@@ -240,7 +250,7 @@ if (isset($_POST['loaddata'])) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
+                                        <button class="btn btn-primary w-100 mb-3" type="submit">Add</button>
 
                                     </form>
                                 </div>
