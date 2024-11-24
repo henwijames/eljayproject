@@ -67,17 +67,17 @@ function get_achievements_datatable()
     $sql = 'SELECT * FROM `achievements`';
     $stmt = $db->prepare($sql);
     $stmt->execute();
-    $batches = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($batches as $batch) {
+    $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($achievements as $achieve) {
     ?>
         <tr>
-            <td><img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png"><?php echo $batch['name'] ?></td>
-            <td><?php echo $batch['created_at'] ?></td>
+            <td><img class="rounded-circle me-2" width="30" height="30" src="https://student.lemerycolleges.edu.ph/images/favicon.png"><?php echo $achieve['name'] ?></td>
+            <td><?php echo $achieve['created_at'] ?></td>
             <td class="text-center">
                 <button class="btn btn-outline-warning mx-1" type="button" data-bs-target="#update_achv" data-bs-toggle="modal"
-                    data-id="<?php echo $batch['id'] ?>"
-                    data-name="<?php echo $batch['name'] ?>"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete_achv" data-bs-toggle="modal" data-id="<?php echo $batch['id'] ?>"><i class="fas fa-trash"></i></button>
+                    data-id="<?php echo $achieve['id'] ?>"
+                    data-name="<?php echo $achieve['name'] ?>"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete_achv" data-bs-toggle="modal" data-id="<?php echo $achieve['id'] ?>"><i class="fas fa-trash"></i></button>
             </td>
         </tr>
     <?php

@@ -41,7 +41,7 @@ if (!isset($_SESSION['username'])) {
             <!-- Left Container: Add Batch -->
             <div class="col-md-6">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-2">Batche's</h3>
+                        <h3 class="text-dark mb-2">Batch</h3>
                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Batch Year</button>
                     </div>
                     <div class="card shadow">
@@ -72,7 +72,7 @@ if (!isset($_SESSION['username'])) {
 
                 <div class="col-md-6">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-2">Achievement's</h3>
+                        <h3 class="text-dark mb-2">Achievements</h3>
                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add_achv" data-bs-toggle="modal">Add Achievement's</button>
                     </div>
                     <div class="card shadow">
@@ -130,11 +130,11 @@ if (!isset($_SESSION['username'])) {
             <div class="modal-body">
                 <form action="../functions/administrator/update-batch.php" method="post">
                     <!-- Hidden input for ID -->
-                    <input type="hidden" name="id" value="<?php echo $batch_id; ?>">
+                    <input type="hidden" name="id" id="update-batch-id">
 
                     <!-- Input for Batch Year -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" name="year" placeholder="Batch Year" required="">
+                        <input class="form-control" type="text" name="year" placeholder="Batch Year" id="batch-name" required="">
                         <label class="form-label" for="floatingInput">Batch Year :</label>
                     </div>
 
@@ -149,24 +149,7 @@ if (!isset($_SESSION['username'])) {
     </div>
 </div>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="delete">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this batch?</p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-                <form action="../functions/administrator/delete-batch.php" method="post">
-                    <input type="hidden" name="id">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
-            </div>
-            </div>
-        </div>
-    </div>
+    
 
     
     <!-- Achievements modal -->
@@ -186,7 +169,7 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="update_achv">
+    <div class="modal fade" id="update_achv" tabindex="-1" aria-labelledby="update_achv_label" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -196,16 +179,16 @@ if (!isset($_SESSION['username'])) {
             <div class="modal-body">
                 <form action="../functions/administrator/update-achievements.php" method="post">
                     <!-- Hidden input for ID -->
-                    <input type="hidden" name="id" value="<?php echo $batch_id; ?>">
+                    <input type="hidden" name="id" id="update-achievement-id">
 
-                    <!-- Input for Batch Year -->
+                    <!-- Input for Achievement Name -->
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" name="name" placeholder="Achievements" required="">
-                        <label class="form-label" for="floatingInput">Achievements :</label>
+                        <input class="form-control" type="text" name="name" id="achievement-name" placeholder="Achievements" required="">
+                        <label class="form-label" for="achievement-name">Achievements :</label>
                     </div>
 
                     <!-- Submit Button -->
-                    <button class="btn btn-primary w-100" type="submit">Update Achievements</button>
+                    <button class="btn btn-primary w-100" type="submit">Update Achievement</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -213,6 +196,7 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+</div>
 </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="delete_achv">
@@ -222,17 +206,77 @@ if (!isset($_SESSION['username'])) {
                     <h4 class="modal-title">Delete</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this batch?</p>
+                    <p>Are you sure you want to delete this achievement?</p>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
                 <form action="../functions/administrator/delete-achievements.php" method="post">
-                    <input type="hidden" name="id">
+                <input type="hidden" name="id" id="delete-achievement-id">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
             </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this batch?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                <form action="../functions/administrator/delete-batch.php" method="post">
+                    <input type="hidden" name="id" id="delete-batch-id">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Populate modal with the achievement ID
+    document.querySelectorAll('[data-bs-target="#update"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const batchId = button.getAttribute('data-id');
+            const batchName = button.getAttribute('data-name');
+
+            // Set the achievement ID in the hidden input
+            document.getElementById('update-batch-id').value = batchId;
+            
+            // Set the achievement name in the input field
+            document.getElementById('batch-name').value = batchName;
+        });
+    });
+    document.querySelectorAll('[data-bs-target="#delete"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const batchId = button.getAttribute('data-id');
+            document.getElementById('delete-batch-id').value = batchId;
+        });
+    });
+
+
+    document.querySelectorAll('[data-bs-target="#delete_achv"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const achievementId = button.getAttribute('data-id');
+            document.getElementById('delete-achievement-id').value = achievementId;
+        });
+    });
+    
+    document.querySelectorAll('[data-bs-target="#update_achv"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const achievementId = button.getAttribute('data-id');
+            const achievementName = button.getAttribute('data-name');
+
+            // Set the achievement ID in the hidden input
+            document.getElementById('update-achievement-id').value = achievementId;
+            
+            // Set the achievement name in the input field
+            document.getElementById('achievement-name').value = achievementName;
+        });
+    });
+    </script>
 
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

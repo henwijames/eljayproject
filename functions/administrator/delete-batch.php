@@ -1,6 +1,7 @@
 <?php
 require_once '../connection.php';
 
+
 // Check if 'id' is set and validate it
 if (isset($_POST['id']) && !empty($_POST['id'])) {
     $id = filter_var($_POST['id'], FILTER_VALIDATE_INT);

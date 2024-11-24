@@ -236,7 +236,7 @@ $coursesStmt->close();
 
                 <div class=" text-center">
 
-                    <a href="print_all.php?batch=<?= $batch_id ?>" class="btn text-white" style="background-color:#102C57;">Print All Data</a>
+                    <a href="yearbookprint.php?batch=<?= $batch_id ?>" class="btn text-white" style="background-color:#102C57;">Print All Data</a>
                 </div>
             </div>
             <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -259,7 +259,7 @@ $coursesStmt->close();
                                 <div class="course-section">
                                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 overflow-y-auto">
                                         <?php
-                                        $sqlstu = "SELECT * FROM students WHERE course = '$courseID'";
+                                        $sqlstu = "SELECT * FROM alumnigallery WHERE COURSE = '$courseID'";
                                         $resultstu = mysqli_query($conn, $sqlstu);
                                         foreach ($resultstu as $trow) {
                                         ?>
@@ -268,29 +268,40 @@ $coursesStmt->close();
                                                     <div
                                                         class="card-img-top"
                                                         style="
-                                                        background-image: url('<?= !empty($trow['profile_pic']) ? (preg_match('/data:image/i', $trow['profile_pic']) ? $trow['profile_pic'] : '../student/images/' . $trow['profile_pic']) : 'default-avatar.jpg' ?>');
+                                                        background-image: url('<?= !empty($trow['IMAGE']) ? (preg_match('/data:image/i', $trow['IMAGE']) ? $trow['IMAGE'] : '../student/images/' . $trow['IMAGE']) : 'default-avatar.jpg' ?>');
                                                         background-size: cover;
                                                         background-position: center;
-                                                        height: 150px;
+                                                        height: 250px;
                                                     "></div>
                                                     <div class="line"></div>
                                                     <div class="card-body">
-                                                        <h5 class="card-title"><?= htmlspecialchars($trow['lastname']) ?>, <?= htmlspecialchars($trow['firstname']) ?></h5>
-                                                        <p class="card-text"><em><?= htmlspecialchars($trow['present_address']) ?></em></p>
-                                                        <p class="card-text"><em><?= htmlspecialchars($trow['birthdate']) ?></em></p>
+                                                        <h5 class="card-title"><?php
+                                                            if($trow['MIDDLENAME']==''){
+                                                                echo htmlspecialchars($trow['LASTNAME']) . ", " . htmlspecialchars($trow['FIRSTNAME']);
+                                                            
+                                                            }else{
+                                                                echo htmlspecialchars($trow['LASTNAME']) . ", " . htmlspecialchars($trow['FIRSTNAME']) . " " . htmlspecialchars($trow['MIDDLENAME'][0]) . ".";
+                                                            }
+
+                                                        ?></h5>
+                                                        <p class="card-text"><em><?= htmlspecialchars($trow['ADDRESS']) ?></em></p>
+                                                        <p class="card-text"><em><?php
+                                                        //display the birthday in a readable format
+                                                        $date = date_create($trow['BIRTHDATE']);
+                                                        echo date_format($date, "F d, Y");
+
+                                                        ?></em></p>
                                                         <p class="card-text">
                                                             <em>
                                                                 <?php
                                                                 if (isset($trow['motto'])) {
                                                                     echo '"' . htmlspecialchars($trow['motto']) . '"';
-                                                                } else {
-                                                                    echo "No Motto Inserted";
-                                                                }
+                                                                } 
                                                                 ?>
                                                             </em>
                                                         </p>
                                                         <p class="card-text">
-                                                            <?php $major = $trow['major_id'];
+                                                            <?php @$major = $trow['major_id'];
                                                             $msql = "SELECT * FROM majors WHERE id = '$major'";
                                                             $mres = mysqli_query($conn, $msql);
                                                             $mrow = mysqli_fetch_assoc($mres);
@@ -300,7 +311,7 @@ $coursesStmt->close();
                                                         </p>
                                                         <p class="card-text text-success">
                                                             <i class="fas fa-trophy"></i>
-                                                            <?php $ach = $trow['achievement_id'];
+                                                            <?php $ach = $trow['ACHIEVEMENT_ID'];
                                                             $achsql = "SELECT * FROM achievements WHERE id = '$ach'";
                                                             $achres = mysqli_query($conn, $achsql);
                                                             $acrow = mysqli_fetch_assoc($achres);

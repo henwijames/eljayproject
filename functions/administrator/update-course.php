@@ -23,7 +23,7 @@ try {
     $stmt->execute();
 
     // Insert new majors
-    $sql = 'INSERT INTO `majors` (`course_id`, `name`) VALUES (:course_id, :name)';
+    $sql = 'INSERT INTO `majors` (`course_id`, `major_name`) VALUES (:course_id, :name)';
     $stmt = $db->prepare($sql);
     
     foreach ($majors as $major) {

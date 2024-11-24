@@ -14,6 +14,7 @@ $qrimage = time() . ".png";
 $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS));
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $firstname = trim(filter_var($_POST['firstname'], FILTER_SANITIZE_SPECIAL_CHARS));
+$middlename = trim(filter_var($_POST['middlename'], FILTER_SANITIZE_SPECIAL_CHARS));
 $lastname = trim(filter_var($_POST['lastname'], FILTER_SANITIZE_SPECIAL_CHARS));
 $birthdate = $_POST['birthdate'];
 $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
@@ -81,8 +82,8 @@ if ($stmt->execute()) {
 $major_id = isset($_POST['majors']) ? intval($_POST['majors'][0]) : null; // Get the first selected major ID
 
 // Insert into students table
-$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`, `profile_pic`) 
-        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id, :profile_pic)";
+$sql = "INSERT INTO `students` (user_id, `firstname`, `lastname`, `birthdate`, `email`, `course`, `civil`, `batch`, `phone`, `file`, `qrimage`, `major_id`, `profile_pic`,`middlename`) 
+        VALUES (:user_id, :firstname, :lastname, :birthdate, :email, :course, :civil, :batch, :phone, :file, :qrimage, :major_id, :profile_pic, :middlename)";
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':user_id', $user_id);
 $stmt->bindParam(':firstname', $firstname);
@@ -97,6 +98,7 @@ $stmt->bindParam(':file', $file);
 $stmt->bindParam(':qrimage', $qrimage);
 $stmt->bindParam(':major_id', $major_id);
 $stmt->bindParam(':profile_pic', $profile_pic);
+$stmt->bindParam(':middlename', $middlename);
 
 if ($stmt->execute()) {
     // QRcode::png($username, $qrcode, 'H', 4, 4);

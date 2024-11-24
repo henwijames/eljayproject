@@ -26,8 +26,9 @@ $achievements = getAchievements(); // Add this line to fetch achievements
 if (isset($_POST['loaddata'])) {
     $c = $_POST['course'];
     $b = $_POST['batch'];
-} else {
-    header('Location:index.php');
+}else{
+    $c = $_GET['course'];
+    $b = $_GET['batch'];
 }
 
 
@@ -113,18 +114,27 @@ if($resBatch) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql = "SELECT * FROM students WHERE course='$c' AND batch='$b'";
+                                            $sql = "SELECT * FROM alumnigallery WHERE COURSE='$c' AND BATCHDATE='$b'";
                                             $res = mysqli_query($conn, $sql);
                                             if (mysqli_num_rows($res) > 0) {
                                                 foreach ($res as $row) {
 
                                             ?>
                                                     <tr>
-                                                        <td><?php echo $row['firstname'] . " " . $row['lastname'] ?></td>
+                                                        <td><?php 
+                                                        if($row['MIDDLENAME'] == '') {
+                                                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'];
+                                                        } else {
+                                                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'] . ' ' . $row['MIDDLENAME'][0] . '.';
+                                                        }
+                                                        
+                                                        ?></td>
                                                         <td class="text-center">
                                                             <!-- Delete Button -->
                                                             <form method="POST" action="delete_student.php" onsubmit="return confirm('Are you sure you want to delete this student?');">
-                                                                <input type="hidden" name="student_id" value="<?php echo $row['id']; ?>">
+                                                                <input type="hidden" name="student_id" value="<?php echo $row['ID']; ?>">
+                                                                <input type="hidden" name="courseid" value="<?=$c?>">
+                                                                <input type="hidden" name="batchid" value="<?=$b?>">
                                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
                                                         </td>
@@ -171,7 +181,8 @@ if($resBatch) {
                                         <div class="d-flex flex-column align-items-center mb-4"></div>
                                         <!-- Achievement Dropdown -->
                                         <div class="mb-3">
-
+                                            <input type="hidden" name="courseid" value="<?=$c?>">
+                                            <input type="hidden" name="batchid" value="<?=$b?>">
                                             <label for="achievementSelect" class="form-label">Achievement:</label>
 
                                             <select id="achievementSelect" class="form-select" name="achievement_id">
@@ -188,7 +199,7 @@ if($resBatch) {
                                         <!-- Profile Picture Upload -->
                                         <div class="mb-3">
                                             <label for="profilePic" class="form-label">Change Profile Picture:</label>
-                                            <input class="form-control" type="file" id="profilePic1" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
+                                            <input class="form-control" type="file" id="profilePic1" name="profile_pic" accept="image/*" onchange="previewProfilePic()" required>
                                         </div>
 
                                         <!-- Submit Button -->
@@ -201,26 +212,32 @@ if($resBatch) {
                                             </div>
                                             <div class="col">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
-                                                    <label class="form-label" for="lastname">Lastname:</label>
+                                                    <input class="form-control" id="middlename" type="text" name="middlename" placeholder="Middlename" required>
+                                                    <label class="form-label" for="middlename">Middlename:</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col">
+                                            <div class="form-floating mb-3">
+                                                    <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
+                                                    <label class="form-label" for="lastname">Lastname:</label>
+                                                </div>
+                                            </div>
                                             <div class="col">
                                                 <div class="form-floating mb-3">
                                                     <input class="form-control" name="birthdate" type="date" required>
                                                     <label class="form-label">Birthdate:</label>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col">
                                                 <div class="form-floating mb-3">
                                                     <input class="form-control" id="present_address1" type="text" name="present_address" placeholder="Address" required>
                                                     <label class="form-label">Address:</label>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col">
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" required name="course" id="course">
@@ -229,12 +246,6 @@ if($resBatch) {
                                                         </optgroup>
                                                     </select>
                                                     <label class="form-label">Course:</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label class="form-label">Majors:</label>
-                                                <div id="majors-container">
-                                                    <!-- Checkboxes for majors will be populated dynamically -->
                                                 </div>
                                             </div>
                                         </div>
@@ -260,164 +271,10 @@ if($resBatch) {
                     </div>
 
                     <!--update-->
-                    <div class="modal fade" role="dialog" tabindex="-1" id="addStudentModal">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <img src="../assets/img/navbar.jpg" style="width: 10em;">
-                                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="../functions/student/update-st.php" method="post" enctype="multipart/form-data" class="p-3">
-                                        <input type="hidden" name="student_id" id="student_id">
-                                        <!-- <input type="hidden" name="student_id" id="studentId" value="<?php echo $student['id'] ?? ''; ?>"> -->
-                                        <!-- Selected Student Info -->
-                                        <div id="selectedStudentInfo" class="mb-3">
-                                            <img id="studentImage" src="../assets/img/profile.png" alt="Alumni Profile" class="img-fluid" style="width: 100px; height: auto;">
-                                            <h5 id="studentName">Select a student</h5>
-                                            <p id="studentMotto">Motto will be displayed here.</p>
-                                        </div>
+                    
 
 
-                                        <!-- Achievement Dropdown -->
-                                        <div class="mb-3">
-                                            <label for="achievementSelect" class="form-label">Achievement:</label>
-                                            <select id="achievementSelect" class="form-select" name="achievement_id">
-                                                <option value="">Select an Achievement (Optional)</option>
-                                                <?php if (!empty($achievements)) : ?>
-                                                    <?php foreach ($achievements as $achievement) : ?>
-                                                        <option value="<?php echo $achievement['id']; ?>" <?php echo ($achievement['id'] == ($student['achievement_id'] ?? '')) ? 'selected' : ''; ?>>
-                                                            <?php echo $achievement['name']; ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                <?php else : ?>
-                                                    <option value="">No achievements available</option>
-                                                <?php endif; ?>
-
-                                            </select>
-                                        </div>
-
-                                        <!-- Motto -->
-                                        <div class="mb-3">
-                                            <label for="motto" class="form-label mt-3">Motto:</label>
-                                            <input class="form-control" type="text" name="motto" id="motto" value="<?php echo $student['motto'] ?? ''; ?>" placeholder="Enter Motto">
-                                        </div>
-
-                                        <!-- Profile Picture Upload -->
-                                        <div class="mb-3">
-                                            <label for="profilePic" class="form-label">Change Profile Picture:</label>
-                                            <input class="form-control" type="file" id="profilePic" name="profile_pic" accept="image/*" onchange="previewProfilePic()">
-                                        </div>
-
-                                        <!-- Submit Button -->
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" name="firstname" id="firstname" class="form-control" value="<?= htmlspecialchars($student_data['firstname'] ?? '') ?>" required>
-                                                    <label class="form-label" for="firstname">Firstname:</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <input class="form-control" id="lastname" type="text" name="lastname"
-                                                        value="<?php echo $student['lastname'] ?? ''; ?>">
-                                                    <label class="form-label" for="lastname">Lastname:</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <input class="form-control" id="birthdate" type="date" name="birthdate"
-                                                        value="<?php echo $student['birthdate'] ?? ''; ?>">
-                                                    <label class="form-label">Birthdate:</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <input class="form-control" id="present_address" type="text" name="present_address"
-                                                        value="<?php echo $student['present_address'] ?? ''; ?>">
-                                                    <label class="form-label">Address:</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" name="course" id="course">
-                                                        <optgroup label="Course">
-                                                            <?php get_courses(); ?>
-                                                        </optgroup>
-                                                    </select>
-                                                    <label class="form-label">Course:</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <label class="form-label">Majors:</label>
-                                                <div id="majors-container">
-                                                    <!-- Checkboxes for majors should be dynamically populated here based on selected course -->
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" name="civil">
-                                                        <optgroup label="Status">
-                                                            <option value="Single" <?php echo (($student['civil'] ?? '') === 'Single') ? 'selected' : ''; ?>>Single</option>
-                                                            <option value="Married" <?php echo (($student['civil'] ?? '') === 'Married') ? 'selected' : ''; ?>>Married</option>
-                                                            <option value="Widow" <?php echo (($student['civil'] ?? '') === 'Widow') ? 'selected' : ''; ?>>Widow</option>
-                                                        </optgroup>
-                                                    </select>
-
-                                                    <label class="form-label">Civil Status:</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" name="batch">
-                                                        <optgroup label="Batch">
-                                                            <?php get_batches(); ?>
-                                                        </optgroup>
-                                                    </select>
-                                                    <label class="form-label">Batch:</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button class="btn btn-primary w-100 mb-3" type="submit">Update</button>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Delete Modal -->
-                    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteLabel">Confirm Deletion</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete this student?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     <script src="../assets/js/jquery.min.js"></script>
                     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
                     <script src="../assets/js/bs-init.js"></script>
@@ -614,6 +471,18 @@ if($resBatch) {
                                 });
                         });
                     </script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <?php
+                    if(isset($_SESSION['stat'])) {
+                        if($_SESSION['stat'] == 'success') {
+                            echo "<script>Swal.fire('Success', '{$_SESSION['msg']}', 'success');</script>";
+                        } else {
+                            echo "<script>Swal.fire('Error', '{$_SESSION['msg']}', 'error');</script>";
+                        }
+                        unset($_SESSION['stat']);
+                        unset($_SESSION['msg']);
+                    }
+                    ?>
 
 </body>
 

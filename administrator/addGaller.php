@@ -1,18 +1,20 @@
 <?php
 include '../functions/conn.php';
-
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieving form data
     $achievement_id = $_POST['achievement_id'];  // Assuming this is a hidden field or auto-generated
     $motto = $_POST['motto'];
     $profile_pic = ''; // Initialize to empty string
     $firstname = $_POST['firstname'];
-    $middlename = "c";  // Corrected 'middelname' to 'middlename'
+    $middlename = $_SESSION['middlename']; // Corrected 'middelname' to 'middlename'
     $lastname = $_POST['lastname'];
     $birthdate = $_POST['birthdate'];
     $present_address1 = $_POST['present_address'];
     $course = $_POST['course'];
     $batch = $_POST['batch'];
+    $courseid = $_POST['courseid'];
+    $batchid = $_POST['batchid'];
 
     // Ensure uploads directory exists
     $upload_dir = '../student/images/';
@@ -51,13 +53,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Insert data into the database
-    $sql = "INSERT INTO `alumnigallery` (`FIRSTNAME`, `MIDDLENAME`, `LASTNAME`, `BIRTHDATE`, `ADDRESS`, `COURSE`, `BATCHDATE`, `MOTTO`, `IMAGE`) 
-            VALUES ('$firstname', '$middlename', '$lastname', '$birthdate', '$present_address1', '$course', '$batch', '$motto', '$profile_pic')";
+    $sql = "INSERT INTO `alumnigallery` (`FIRSTNAME`, `MIDDLENAME`, `LASTNAME`, `BIRTHDATE`, `ADDRESS`, `COURSE`, `BATCHDATE`, `MOTTO`, `IMAGE`,`ACHIEVEMENT_ID`) 
+            VALUES ('$firstname', '$middlename', '$lastname', '$birthdate', '$present_address1', '$course', '$batch', '$motto', '$profile_pic', '$achievement_id')";
 
     if (mysqli_query($conn, $sql)) {
-        echo "New record created successfully";
+        $_SESSION['stat'] = "success";
+        $_SESSION['msg'] = "Student added successfully!";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        $_SESSION['stat'] = "error";
+        $_SESSION['msg'] = "Failed to add student: " . mysqli_error($conn);
+
     }
+    header("Location: gallery.php?course=$courseid&batch=$batchid");
+
 }
 ?>

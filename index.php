@@ -291,6 +291,12 @@ if (isset($_SESSION['username'])) {
                             </div>
                             <div class="col">
                                 <div class="form-floating mb-3">
+                                    <input class="form-control" id="middlename" type="text" name="middlename" placeholder="Lastname" required>
+                                    <label class="form-label" for="middlename">Middlename:</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-3">
                                     <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
                                     <label class="form-label" for="lastname">Lastname:</label>
                                 </div>
