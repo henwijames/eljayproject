@@ -31,6 +31,27 @@ if (isset($_POST['loaddata'])) {
 }
 
 
+$queryCourse = "SELECT * FROM courses WHERE id = $c";
+$resCourse = mysqli_query($conn, $queryCourse);
+if($resCourse) {
+    $courseData = mysqli_fetch_assoc($resCourse);
+    if(!$courseData) {
+        echo "No Course found with ID $c.";
+    }
+}else {
+    echo 'Error in query. ' . mysqli_error($conn);
+}
+$queryBatch = "SELECT * FROM batch WHERE id = $b";
+$resBatch = mysqli_query($conn, $queryBatch);
+if($resBatch) {
+    $batchData = mysqli_fetch_assoc($resBatch);
+    if(!$batchData) {
+        echo "No Course found with ID $b.";
+    }
+}else {
+    echo 'Error in query. ' . mysqli_error($conn);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -77,7 +98,7 @@ if (isset($_POST['loaddata'])) {
                             <section>
                                 <div class="container-fluid">
                                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                                        <h3 class="text-dark mb-2">Gallery Management</h3>
+                                        <h3 class="text-dark mb-2"><?php echo htmlspecialchars($courseData["name"]); ?> - <?php echo htmlspecialchars($batchData["year"]); ?></h3>
                                         <!-- Modal trigger button -->
                                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button>
                                     </div>
@@ -240,7 +261,7 @@ if (isset($_POST['loaddata'])) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
+                                        <button class="btn btn-primary w-100 mb-3" type="submit">Add</button>
 
                                     </form>
                                 </div>
