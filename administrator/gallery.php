@@ -167,19 +167,8 @@ if($resBatch) {
                                         <span id="error-message"></span>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
-                                    <form class="needs-validation" action="../functions/student/reg.php" method="post" enctype="multipart/form-data" novalidate>
+                                    <form class="needs-validation" action="addGaller.php" method="post" enctype="multipart/form-data" novalidate>
                                         <div class="d-flex flex-column align-items-center mb-4"></div>
-
-                                        <!-- Selected Student Info -->
-                                        <!-- <div id="selectedStudentInfo" class="mb-3">
-                    <img id="studentImage" src="../assets/img/default_profile.png" alt="Profile Picture" class="img-fluid" style="width: 100px; height: auto;">
-                    <h5 id="studentName">Select a student</h5>
-                    <p id="studentMotto">Motto will be displayed here.</p>
-                </div> -->
-
-                                        <!-- Hidden Field to Store Selected Student ID -->
-                                        <input type="hidden" name="student_id" id="studentId" value="">
-
                                         <!-- Achievement Dropdown -->
                                         <div class="mb-3">
 
@@ -206,13 +195,13 @@ if($resBatch) {
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="firstname1" type="text" name="firstname" placeholder="Firstname" required>
+                                                    <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Firstname" required>
                                                     <label class="form-label" for="firstname">Firstname:</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" id="lastname1" type="text" name="lastname" placeholder="Lastname" required>
+                                                    <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Lastname" required>
                                                     <label class="form-label" for="lastname">Lastname:</label>
                                                 </div>
                                             </div>
