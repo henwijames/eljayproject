@@ -216,7 +216,10 @@ mysqli_close($conn);
         <?php endforeach; ?>
     </div>
     <script>
-        window.print();
+    window.onafterprint = function() {
+        window.history.back();
+    };
+    
     </script>
 </body>
 </html>

@@ -4,3 +4,4 @@ functions/images/gallery/*
 functions/administrator/email.json
 functions/mysql.json
 vendor
+node_modules
