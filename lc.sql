@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2024 at 08:27 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 24, 2024 at 08:43 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,14 +33,39 @@ CREATE TABLE `achievements` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `achievements`
+-- Table structure for table `alumnigallery`
 --
 
-INSERT INTO `achievements` (`id`, `name`, `created_at`) VALUES
-(1, 'Magna Cum Laude', '2024-09-27 21:34:23'),
-(2, 'Summa Cum Laude', '2024-09-27 21:34:23'),
-(3, 'Cum Laude', '2024-09-27 21:34:23');
+CREATE TABLE `alumnigallery` (
+  `ID` int(11) NOT NULL,
+  `FIRSTNAME` varchar(255) NOT NULL,
+  `MIDDLENAME` varchar(255) NOT NULL,
+  `LASTNAME` varchar(255) NOT NULL,
+  `BIRTHDATE` varchar(255) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL,
+  `COURSE` varchar(255) NOT NULL,
+  `BATCHDATE` varchar(255) NOT NULL,
+  `MOTTO` varchar(255) NOT NULL,
+  `IMAGE` text NOT NULL,
+  `ACHIEVEMENT_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `alumnigallery`
+--
+
+INSERT INTO `alumnigallery` (`ID`, `FIRSTNAME`, `MIDDLENAME`, `LASTNAME`, `BIRTHDATE`, `ADDRESS`, `COURSE`, `BATCHDATE`, `MOTTO`, `IMAGE`, `ACHIEVEMENT_ID`) VALUES
+(12, 'Eljay', 'Pogi', 'Rosal', '2001-11-11', 'Sta. Cruz Agoncillo Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 1),
+(13, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2),
+(14, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2),
+(15, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2),
+(16, 'Eljay', 'Pogi', 'Rosal', '2001-11-11', 'Sta. Cruz Agoncillo Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 1),
+(17, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2),
+(18, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2),
+(19, 'Eljay', 'Salsal', 'Rosal', '2001-11-11', 'Bangin San Nicolas Batangas', '2', '8', 'Lulu lang', 'ssrs.png', 2);
 
 -- --------------------------------------------------------
 
@@ -78,13 +103,7 @@ CREATE TABLE `batch` (
 --
 
 INSERT INTO `batch` (`id`, `year`, `created_at`) VALUES
-(2, '2016 - 2017', '2024-08-17 20:22:37'),
-(3, '2017 - 2018', '2024-08-17 20:22:48'),
-(5, '2019 - 2020', '2024-08-26 23:43:38'),
-(6, '2020 - 2021', '2024-08-26 23:43:50'),
-(7, '2021 - 2022', '2024-08-26 23:43:57'),
-(8, '2022 - 2023', '2024-08-26 23:44:06'),
-(9, '2003 - 2004', '2024-09-14 10:57:57');
+(11, '2022-2023', '2024-11-25 03:36:47');
 
 -- --------------------------------------------------------
 
@@ -119,8 +138,7 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` (`id`, `name`, `created_at`) VALUES
 (1, 'Bachelor of Science in Computer Science', '2024-08-14 19:31:38'),
 (2, 'Bachelor of Science in Information Technology', '2024-08-14 19:31:42'),
-(5, 'Bachelor of Science in Information System', '2024-09-18 12:24:17'),
-(6, 'hahaaha', '2024-09-22 12:58:24');
+(5, 'Bachelor of Science in Information System', '2024-09-18 12:24:17');
 
 -- --------------------------------------------------------
 
@@ -168,7 +186,7 @@ CREATE TABLE `majors` (
 INSERT INTO `majors` (`id`, `course_id`, `major_name`) VALUES
 (7, 5, 'Networking'),
 (8, 5, 'CSS'),
-(9, 6, '');
+(12, 1, '');
 
 -- --------------------------------------------------------
 
@@ -197,19 +215,9 @@ CREATE TABLE `students` (
   `work` varchar(255) DEFAULT NULL,
   `company` varchar(255) DEFAULT NULL,
   `motto` varchar(255) DEFAULT NULL,
-  `achievement_id` int(11) DEFAULT NULL
+  `achievement_id` int(11) DEFAULT NULL,
+  `middlename` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `user_id`, `course`, `batch`, `firstname`, `lastname`, `birthdate`, `email`, `civil`, `phone`, `present_address`, `file`, `profile_pic`, `qrimage`, `created_at`, `major_id`, `status`, `work`, `company`, `motto`, `achievement_id`) VALUES
-(34, 41, 1, 9, 'jusko12', 'jusko12', '1990-02-02', 'jusko12@jusko.jusko', 'Single', '0928317847', 'sa may kanto', 'Screenshot 2024-09-09 145621.png', '66e94107c2dcf.png', '1726500280.png', '2024-09-16 23:24:40', NULL, 'inactive', NULL, NULL, NULL, 1),
-(36, 44, 1, 9, 'totoo na', 'totoo na', '2100-04-03', 'karl.ilao18@gmail.com', 'Single', '02931823176', NULL, 'Screenshot 2024-09-05 140522.png', '66f3dc7e65e12_WIN_20240824_12_23_40_Pro.jpg', '1726629195.png', '2024-09-18 11:13:15', NULL, 'inactive', NULL, NULL, NULL, 1),
-(38, 46, 5, 9, 'karl', 'karl', '3101-02-09', 'karl@karl.karl', 'Single', '90348923942', 'kanto', 'Screenshot 2024-09-04 140029.png', '66f6aa7b43765.png', '1726715553.png', '2024-09-19 11:12:33', 8, 'inactive', 'tambay', 'dine lang', NULL, 1),
-(55, 61, 5, 2, 'Eljay', 'Rosal', '2010-11-01', 'rosaleljay@gmail.com', 'Married', '09876543567', NULL, '376518229_689386399351681_7185754624885538493_n__2_-removebg-preview (1).png', '../../assets/img/person.png', '1732228396.png', '2024-11-22 06:33:16', 7, 'inactive', NULL, NULL, NULL, NULL),
-(56, 63, 2, 2, 'John Lester', 'Osabel', '2024-11-22', NULL, NULL, NULL, 'Dulangan, San Luis', '', '376518229_689386399351681_7185754624885538493_n__2_-removebg-preview.png', '', '2024-11-22 06:42:18', NULL, 'active', NULL, NULL, 'e Relax mo lang', 1);
 
 -- --------------------------------------------------------
 
@@ -233,15 +241,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `type`, `status`, `qrcode`, `created_at`, `qrtext`) VALUES
-(1, 'admin', '$2y$10$Ji46iYwWXaCUzP9.Gd5.IebzaefcCSDwNFtrmDlYC8Ry22tkM24Hq', 'administrator', 'approved', 'admin', '2024-08-14 19:25:32', ''),
-(30, 'last na', '$2y$10$IhxJbOTH/CYqEPYxe613m.dxB2uJ5UVanZAjhB.bcKujkWEuA4yq6', 'student', 'approved', '', '2024-08-26 20:45:45', ''),
-(41, 'jusko12', '$2y$10$cajKRkqFUnPJxgWyKbMggO3DxieWkUcw6cOrMg7zeYI2KgZRHrwpe', 'student', 'pending', '', '2024-09-16 23:24:40', ''),
-(44, 'gegegege', '$2y$10$C6HjKu8z8dsDuOsTb4Ffa.URDvb1LsVGAZ.b3VwenCAl0MtngZfXC', 'student', 'declined', '', '2024-09-18 11:13:15', ''),
-(46, 'karl', '$2y$10$0TjeeOl3E3x5Y0lOgZYJce/KOOuTH7YZnNDo8sFarpY8wND0s2FLK', 'student', 'approved', '', '2024-09-19 11:12:33', ''),
-(47, '123456', '$2y$10$qbg/HjiNyHYcE4oOOtvlge/IGMmykcn/CYMPuiJQ5du..2bAKAw1e', 'student', 'approved', '', '2024-09-19 11:27:56', ''),
-(61, '8383453', '$2y$10$9h6VgznJdWTRcThs/mJsSuJC0n61OVLo5unz9KsWlMWtk4MzG.Dq6', 'student', 'approved', '', '2024-11-22 06:33:16', ''),
-(62, 'john lester.osabel683', '$2y$10$Tk3EtqZMxxU/hnfklKAkxulF6pLWlv66pnwsPX6eVK94gz9G2KU/y', 'student', 'pending', '', '2024-11-22 06:41:13', ''),
-(63, '1234', '$2y$10$PJ8XC4lRlbpuin.7Kb9l7uRQoz5tvctpmDsbu13mX5.lHS01o0stS', 'student', 'pending', '', '2024-11-22 06:42:18', '');
+(65, 'admin', '$2y$10$dulIPhgcWde7BlR2uEg7k.WeFybBx/c9T1Z78Dt0m3XY8.mDNTKqa', 'administrator', 'approved', '', '2024-11-24 21:18:10', ''),
+(66, '202011084', '$2y$10$vHGz6xzwyc5NGfzYbi7DR.xE/uYgy/fZH0yHbinAEHHYepJJKTgNm', 'student', 'approved', '', '2024-11-24 21:18:11', '');
 
 --
 -- Indexes for dumped tables
@@ -252,6 +253,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `type`, `status`, `qrcode`, `
 --
 ALTER TABLE `achievements`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `alumnigallery`
+--
+ALTER TABLE `alumnigallery`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `announcements`
@@ -325,7 +332,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `achievements`
 --
 ALTER TABLE `achievements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `alumnigallery`
+--
+ALTER TABLE `alumnigallery`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `announcements`
@@ -337,7 +350,7 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `batch`
 --
 ALTER TABLE `batch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -367,19 +380,19 @@ ALTER TABLE `graduates`
 -- AUTO_INCREMENT for table `majors`
 --
 ALTER TABLE `majors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Constraints for dumped tables
