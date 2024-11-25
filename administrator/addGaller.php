@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $motto = $_POST['motto'];
     $profile_pic = ''; // Initialize to empty string
     $firstname = $_POST['firstname'];
-    $middlename = $_SESSION['middlename']; // Corrected 'middelname' to 'middlename'
+    $middlename = $_POST['middlename']; // Corrected 'middelname' to 'middlename'
     $lastname = $_POST['lastname'];
     $birthdate = $_POST['birthdate'];
     $present_address1 = $_POST['present_address'];
