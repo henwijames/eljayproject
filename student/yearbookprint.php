@@ -12,6 +12,14 @@ $mpdf = new Mpdf([
 ]);
 
 
+$query = "SELECT * FROM batch WHERE id = '$batchid'";
+$res = mysqli_query($conn, $query);
+$batchYear = mysqli_fetch_assoc($res);
+
+
+
+
+
 
 
 $html = '
@@ -159,7 +167,7 @@ $html = '
 <body>
     <div class="bg-container"></div>
     <div class="wrapper">
-        <h1 class="mt-4">Yearbook for Batch</h1>
+        <h1 class="mt-4">Yearbook for Batch '. $batchYear['year'] .'</h1>
         <div class="mission-vision mb-4">
             <h2>Vision</h2>
             <p>Expanding the Right Choice for Real-Life Education in Southern Luzon.</p>

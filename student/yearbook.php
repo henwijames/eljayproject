@@ -236,7 +236,7 @@ $coursesStmt->close();
 
                 <div class=" text-center">
 
-                    <a href="yearbookprint.php?batch=<?= $batch_id ?>" class="btn text-white" style="background-color:#102C57;">Print All Data</a>
+                    <a href="yearbookprint.php?batch=<?= $batch_id ?>"  class="btn text-white" style="background-color:#102C57;">Print All Data</a>
                 </div>
             </div>
             <div class="accordion accordion-flush" id="accordionFlushExample">
