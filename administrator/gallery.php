@@ -106,6 +106,7 @@ if($resBatch) {
                                     <table class="table display my-0" id="dataTable">
                                         <thead>
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Fullname</th>
 
 
@@ -114,21 +115,24 @@ if($resBatch) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql = "SELECT * FROM alumnigallery WHERE COURSE='$c' AND BATCHDATE='$b'";
+                                            $sql = "SELECT * FROM alumnigallery WHERE COURSE='$c' AND BATCHDATE='$b' ORDER BY LASTNAME ASC";
                                             $res = mysqli_query($conn, $sql);
+                                            $counter = 1; // Initialize a counter variable starting from 1
                                             if (mysqli_num_rows($res) > 0) {
                                                 foreach ($res as $row) {
-
                                             ?>
                                                     <tr>
-                                                        <td><?php 
-                                                        if($row['MIDDLENAME'] == '') {
-                                                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'];
-                                                        } else {
-                                                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'] . ' ' . $row['MIDDLENAME'][0] . '.';
-                                                        }
-                                                        
-                                                        ?></td>
+                                                        <!-- Display the counter value instead of $row['ID'] -->
+                                                        <td><?php echo $counter++; ?></td> 
+                                                        <td>
+                                                            <?php 
+                                                            if ($row['MIDDLENAME'] == '') {
+                                                                echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'];
+                                                            } else {
+                                                                echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'] . ' ' . $row['MIDDLENAME'][0] . '.';
+                                                            }
+                                                            ?>
+                                                        </td>
                                                         <td class="text-center">
                                                             <!-- Delete Button -->
                                                             <form method="POST" action="delete_student.php" onsubmit="return confirm('Are you sure you want to delete this student?');">
@@ -139,18 +143,18 @@ if($resBatch) {
                                                             </form>
                                                         </td>
                                                     </tr>
-                                                <?php
+                                            <?php
                                                 }
                                             } else {
-                                                ?>
+                                            ?>
                                                 <tr>
-                                                    <td>No Record Found</td>
+                                                    <td colspan="3">No Record Found</td> <!-- Updated colspan to match the number of columns -->
                                                 </tr>
                                             <?php
                                             }
                                             ?>
-
                                         </tbody>
+
 
 
                                     </table>

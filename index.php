@@ -44,6 +44,7 @@ if (isset($_SESSION['username'])) {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
     .notification {
@@ -369,7 +370,8 @@ if (isset($_SESSION['username'])) {
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" type="file" name="file" required>
+                                <input class="form-control" type="file" name="file" required accept="application/pdf, image/png, image/jpeg, image/jpg" required>
+
                                     <label class="form-label">Authorization : </label>
                                 </div>
                             </div>
@@ -457,7 +459,18 @@ if (isset($_SESSION['username'])) {
             }, 5000);
         }
     </script>
-
+<?php
+if(isset($_SESSION['status'])){
+    echo "<script>Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '".$_SESSION['message']."',
+        confirmButtonText: 'Close'
+    });</script>";
+    unset($_SESSION['status']);
+    unset($_SESSION['message']);
+}
+?>
 </body>
 
 </html>

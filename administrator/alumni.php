@@ -66,7 +66,7 @@ if (!isset($_SESSION['username'])) {
                                             <th>Status</th>
                                             <th>Work</th>
                                             <th>Company</th>
-                                            <th class="text-center">Action</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>

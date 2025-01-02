@@ -63,6 +63,7 @@ try {
     <link rel="stylesheet" href="../assets/css/Hero-Clean-images.css">
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
     body {
@@ -95,7 +96,25 @@ try {
         width: 100%;
         height: 100%;
     }
+    #profile_pic {
+    display: none;
+    }
 
+    /* Style the custom label */
+    .custom-file-label {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #495057;
+        width: 100%;
+    }
+
+    .custom-file-label:hover {
+        background-color: #e2e6ea;
+    }
 
 
     @media (max-width: 768px) {
@@ -120,17 +139,50 @@ try {
                     <div class="container-fluid">
                         <div class="row justify-content-center">
                             <form action="update-profile.php" method="post" enctype="multipart/form-data" class="col-md-8 shadow-lg p-4 rounded bg-light">
-                                <div class="text-center mb-4">
-                                    <?php if (!empty($student['profile_pic'])): ?>
-                                        <img src="images/<?php echo htmlspecialchars($student['profile_pic']); ?>"
-                                            alt="Profile Picture"
-                                            class="rounded-circle mb-3 border object-fit-cover"
-                                            style="width: 200px; height: 200px;">
-                                    <?php endif; ?>
-                                    <div class="input-group">
-                                        <input type="file" class="form-control" id="profile_pic" name="profile_pic">
-                                    </div>
+                            <div class="text-center mb-4">
+                                <!-- Display the current profile picture if available -->
+                                <?php if (!empty($student['profile_pic'])): ?>
+                                    <img id="profile_preview"
+                                        src="images/<?php echo htmlspecialchars($student['profile_pic']); ?>"
+                                        alt="Profile Picture"
+                                        class="rounded-circle mb-3 border object-fit-cover"
+                                        style="width: 200px; height: 200px;">
+                                <?php else: ?>
+                                    <!-- Placeholder if no profile picture is uploaded -->
+                                    <img id="profile_preview"
+                                        src="https://via.placeholder.com/200"
+                                        alt="Profile Picture"
+                                        class="rounded-circle mb-3 border object-fit-cover"
+                                        style="width: 200px; height: 200px;">
+                                <?php endif; ?>
+
+                                <div class="input-group">
+                                    <!-- Custom label for file input -->
+                                    <label for="profile_pic" class="custom-file-label">Choose Profile Picture</label>
+                                    <input type="file" class="form-control" id="profile_pic" name="profile_pic" accept="image/*">
                                 </div>
+                            </div>
+                            <script>
+                                // Select the file input and the preview image
+                                const profilePicInput = document.getElementById('profile_pic');
+                                const profilePreview = document.getElementById('profile_preview');
+
+                                // Add an event listener to handle file selection
+                                profilePicInput.addEventListener('change', function(event) {
+                                    const file = event.target.files[0]; // Get the selected file
+
+                                    if (file) {
+                                        const reader = new FileReader();
+
+                                        // When the file is read, set it as the source of the preview image
+                                        reader.onload = function(e) {
+                                            profilePreview.src = e.target.result;
+                                        };
+
+                                        reader.readAsDataURL(file); // Read the file as a data URL
+                                    }
+                                });
+                            </script>
                                 <div class="row">
                                     <!-- Left Column -->
                                     <div class="col-md-6">

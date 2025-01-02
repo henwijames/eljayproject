@@ -127,11 +127,7 @@ function get_students()
                 }
                 ?>
             </td>
-            <td class="text-center">
-
-                <button class="btn btn-outline-danger mx-1" type="button" data-bs-target="#delete" data-bs-toggle="modal"
-                    data-id="<?php echo $student['user_id'] ?>"><i class="fas fa-trash"></i></button>
-            </td>
+            
         </tr>
     <?php
     }

@@ -71,7 +71,9 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     }
 
     $stmt->close();
-    mysqli_close($conn);
+
+   
+ 
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -96,7 +98,10 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
         <link rel="stylesheet" href="../assets/css/Hero-Clean-images.css">
         <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
         <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
+
+
     <style>
         .profile-header {
             background: linear-gradient(135deg, #102c57 0%, #fbfbf3 100%);
@@ -343,6 +348,26 @@ if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
     </style>
 
     <body>
+    <?php
+// Check if the profile_pic is empty
+if (empty($student['profile_pic'])) {
+    ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please upload your profile picture first!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'index.php';
+            }
+        });
+    </script>
+    <?php
+    exit; // Stop further execution
+}
+mysqli_close($conn);
+?>
         <div class="overlay">
             <div class="d-flex flex-column" id="content-wrapper">
                 <?php include_once '../functions/student/navbar-menu.php'; ?>

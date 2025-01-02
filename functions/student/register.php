@@ -1,7 +1,7 @@
 <?php
 include_once '../connection.php';
 require_once 'phpqrcode/qrlib.php';
-
+session_start();
 $path = 'qrcodes/';
 if (!is_dir($path)) {
     mkdir($path, 0777, true); // Ensure the directory exists
@@ -41,16 +41,19 @@ if ($file['error'] === UPLOAD_ERR_OK) {
         if (move_uploaded_file($file['tmp_name'], $filePath)) {
             $file = basename($file['name']);
         } else {
-            echo "Error moving uploaded file.";
-            exit;
+            $_SESSION['status'] = 'error';
+            $_SESSION['message'] = 'Error uploading file.';
+            header('Location: ../../index.php');
         }
     } else {
-        echo "Invalid file type or file too large.";
-        exit;
+        $_SESSION['status'] = 'error';
+        $_SESSION['message'] = 'Invalid file type or file size exceeds 2MB.';
+        header('Location: ../../index.php');
     }
 } else {
-    echo "File upload error.";
-    exit;
+    $_SESSION['status'] = 'error';
+    $_SESSION['message'] = 'Error uploading file.';
+    header('Location: ../../index.php');
 }
 
 $status = 'pending';
