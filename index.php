@@ -385,6 +385,8 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </div>
                         <div class="row">
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
                             <div class="col">
                                 <div class="form-floating mb-3">
                                     <input class="form-control" type="number" name="phone" placeholder="Phone" maxlength="11" oninput="this.value = this.value.slice(0, 11)">
@@ -393,13 +395,60 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <div class="form-floating mb-3">
-                                <input class="form-control" type="file" name="file" required accept="application/pdf, image/png, image/jpeg, image/jpg" required>
+                        <div class="col">
+    <div class="form-floating mb-3">
+        <input 
+            class="form-control" 
+            type="file" 
+            name="file" 
+            id="uploadfile" 
+            required 
+            accept="image/png, image/jpeg, image/jpg"
+        >
+        <label class="form-label">Authorization :</label>
+    </div>
+    <script>
+        document.getElementById('uploadfile').addEventListener('change', function (event) {
+            const file = event.target.files[0];
 
-                                    <label class="form-label">Authorization : </label>
-                                </div>
-                            </div>
+            if (file) {
+                const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+                const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+                // Check file size
+                if (file.size > maxSize) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'File size exceeds 2MB. Please upload a smaller file.'
+                    });
+                    event.target.value = ''; // Clear the input
+                    return;
+                }
+
+                // Check file type
+                if (!validTypes.includes(file.type)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Invalid file type. Please upload an image file (PNG, JPEG, JPG).'
+                    });
+                    event.target.value = ''; // Clear the input
+                    return;
+                }
+
+                // If all checks pass
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'File is valid!'
+                });
+            }
+        });
+    </script>
+</div>
+
+
                         </div>
                         <button class="btn btn-primary w-100 mb-3" type="submit">Sign up</button>
                         <div class="d-flex flex-column align-items-center mb-4"></div>

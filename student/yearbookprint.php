@@ -41,10 +41,7 @@ ob_start();
             justify-content: center;
             align-items: center;
             position: relative;
-            background-image: url('bggg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+           
         }
 
         .title {
