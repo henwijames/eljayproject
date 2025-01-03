@@ -53,7 +53,7 @@ if (!isset($_SESSION['username'])) {
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Batch Year</th>
+                                            
                                             <th>Created At</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -85,7 +85,7 @@ if (!isset($_SESSION['username'])) {
                                     <thead>
                                         <tr>
                                             <th>Batch Year</th>
-                                            <th>Created At</th>
+                                            
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>

@@ -77,6 +77,15 @@ if($resBatch) {
     <link rel="stylesheet" href="../assets/css/Hero-Clean-images.css">
     <link rel="stylesheet" href="../assets/css/Lightbox-Gallery-baguetteBox.min.css">
     <link rel="stylesheet" href="../assets/css/Login-Form-Basic-icons.css">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <!-- jQuery (required for DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 
 </head>
 <style>
@@ -104,60 +113,74 @@ if($resBatch) {
                                         <button class="btn btn-outline-primary mx-2 mb-2" type="button" data-bs-target="#add" data-bs-toggle="modal">Add Alumni</button>
                                     </div>
                                     <table class="table display my-0" id="dataTable">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Fullname</th>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fullname</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $sql = "SELECT * FROM alumnigallery WHERE COURSE='$c' AND BATCHDATE='$b' ORDER BY LASTNAME ASC";
+        $res = mysqli_query($conn, $sql);
+        $counter = 1; // Initialize a counter variable starting from 1
+        if (mysqli_num_rows($res) > 0) {
+            foreach ($res as $row) {
+        ?>
+                <tr>
+                    <!-- Display the counter value instead of $row['ID'] -->
+                    <td><?php echo $counter++; ?></td> 
+                    <td>
+                        <?php 
+                        if ($row['MIDDLENAME'] == '') {
+                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'];
+                        } else {
+                            echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'] . ' ' . $row['MIDDLENAME'][0] . '.';
+                        }
+                        ?>
+                    </td>
+                    <td class="text-center">
+                        <!-- Delete Button -->
+                        <form method="POST" action="delete_student.php" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                            <input type="hidden" name="student_id" value="<?php echo $row['ID']; ?>">
+                            <input type="hidden" name="courseid" value="<?=$c?>">
+                            <input type="hidden" name="batchid" value="<?=$b?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+        <?php
+            }
+        } else {
+        ?>
+            <tr>
+                <td colspan="3">No Record Found</td> <!-- Updated colspan to match the number of columns -->
+            </tr>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
 
 
-                                                <th class="text-center">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $sql = "SELECT * FROM alumnigallery WHERE COURSE='$c' AND BATCHDATE='$b' ORDER BY LASTNAME ASC";
-                                            $res = mysqli_query($conn, $sql);
-                                            $counter = 1; // Initialize a counter variable starting from 1
-                                            if (mysqli_num_rows($res) > 0) {
-                                                foreach ($res as $row) {
-                                            ?>
-                                                    <tr>
-                                                        <!-- Display the counter value instead of $row['ID'] -->
-                                                        <td><?php echo $counter++; ?></td> 
-                                                        <td>
-                                                            <?php 
-                                                            if ($row['MIDDLENAME'] == '') {
-                                                                echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'];
-                                                            } else {
-                                                                echo $row['LASTNAME'] . ', ' . $row['FIRSTNAME'] . ' ' . $row['MIDDLENAME'][0] . '.';
-                                                            }
-                                                            ?>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <!-- Delete Button -->
-                                                            <form method="POST" action="delete_student.php" onsubmit="return confirm('Are you sure you want to delete this student?');">
-                                                                <input type="hidden" name="student_id" value="<?php echo $row['ID']; ?>">
-                                                                <input type="hidden" name="courseid" value="<?=$c?>">
-                                                                <input type="hidden" name="batchid" value="<?=$b?>">
-                                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                            <?php
-                                                }
-                                            } else {
-                                            ?>
-                                                <tr>
-                                                    <td colspan="3">No Record Found</td> <!-- Updated colspan to match the number of columns -->
-                                                </tr>
-                                            <?php
-                                            }
-                                            ?>
-                                        </tbody>
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        var table = $('#dataTable').DataTable();
 
+        // Apply the search functionality
+        $('#searchInput').on('keyup', function() {
+            table.search(this.value).draw();
+        });
 
+        //remove the show entries
+        $('.dataTables_length').remove();
+        
 
-                                    </table>
+    });
+</script>
+
 
 
                                 </div>

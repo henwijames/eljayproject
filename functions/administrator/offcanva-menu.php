@@ -26,6 +26,21 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         &nbsp;Gallery
                     </a>
                 </li>
+                <li class="nav-item"><a class="nav-link <?php if ($current_page == 'faculty.php') {
+                                                            echo 'link-light active';
+                                                        } else {
+                                                            echo 'link-body-emphasis';
+                                                        } ?>" href="#" data-bs-toggle="modal" data-bs-target="#AddFaculty"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-people text-primary me-2">
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
+                        </svg> Faculty Member</a>
+                </li>
+                <li class="nav-item"><a class="nav-link <?php if ($current_page == 'outstanding.php') {
+                                                            echo 'link-light active';
+                                                        } else {
+                                                            echo 'link-body-emphasis';
+                                                        } ?>" href="#" data-bs-toggle="modal" data-bs-target="#Outstanding"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-people text-success me-2">
+                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
+                        </svg>Outstanding Graduates</a></li>
 
 
 
@@ -119,6 +134,90 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         }
                         ?>
                     </select>
+                    <select class="form-select" name="batch" aria-label="Default select example">
+                        <option selected>Select Batch Year</option>
+                        <?php
+                        $bsql = "SELECT * FROM batch";
+                        $bres = mysqli_query($conn, $bsql);
+                        foreach ($bres as $brow) {
+                        ?>
+                            <option value="<?= $brow['id'] ?>"><?= $brow['year'] ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" name="loaddata" data-bs-dismiss="modal">Load Data</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="AddFaculty" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Faculty Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                $sname = "localhost";
+                $unmae = "root";
+                $password = "";
+
+                $db_name = "lc";
+
+                $conn = mysqli_connect($sname, $unmae, $password, $db_name);
+                ?>
+                <form action="faculty.php" method="post">
+                    
+                    <select class="form-select" name="batch" aria-label="Default select example">
+                        <option selected>Select Batch Year</option>
+                        <?php
+                        $bsql = "SELECT * FROM batch";
+                        $bres = mysqli_query($conn, $bsql);
+                        foreach ($bres as $brow) {
+                        ?>
+                            <option value="<?= $brow['id'] ?>"><?= $brow['year'] ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" name="loaddata" data-bs-dismiss="modal">Load Data</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Outstanding" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Outstanding Graduates</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                $sname = "localhost";
+                $unmae = "root";
+                $password = "";
+
+                $db_name = "lc";
+
+                $conn = mysqli_connect($sname, $unmae, $password, $db_name);
+                ?>
+                <form action="outstanding.php" method="post">
+                    
                     <select class="form-select" name="batch" aria-label="Default select example">
                         <option selected>Select Batch Year</option>
                         <?php

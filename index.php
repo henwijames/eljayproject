@@ -250,8 +250,33 @@ if (isset($_SESSION['username'])) {
                         <div class="form-floating mb-3"><input class="form-control form-control" type="text" name="username" placeholder="Username"><label class="form-label" for="floatingInput">Username : </label></div>
                         <div class="form-floating mb-3"><input class="form-control form-control" type="password" name="password" placeholder="Password"><label class="form-label" for="floatingInput">Password : </label></div><button class="btn btn-primary w-100 mb-3" role="button" type="submit">Sign In</button>
 
-
+                        <div class="mt-2"><a href="#" data-bs-target="#forgot-password" data-bs-toggle="modal"> Forgot Password</a></div>
                         <div class="mt-5">Not yet a member?<a href="#" data-bs-target="#register" data-bs-toggle="modal"> here</a></div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="forgot-password">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column align-items-center mb-4"><img class="mb-3 rounded-circle" src="https://student.lemerycolleges.edu.ph/images/favicon.png" style="width: 5em;">
+                        <h2 class="text-center">Reset Password</h2>
+                    </div>
+                    <form action="reset.php" method="post">
+                        <div class="form-floating mb-3">
+                            <input class="form-control form-control" type="email" name="email" placeholder="Email">
+                            <label class="form-label" for="floatingInput">Email : </label>
+                            </div>
+                        <button class="btn btn-primary w-100 mb-3" name="reset" role="button" type="submit">Reset Password</button>
+
+
+                       
 
                     </form>
                 </div>
@@ -468,6 +493,16 @@ if(isset($_SESSION['status'])){
         confirmButtonText: 'Close'
     });</script>";
     unset($_SESSION['status']);
+    unset($_SESSION['message']);
+}
+if(isset($_SESSION['success'])){
+    echo "<script>Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '".$_SESSION['message']."',
+        confirmButtonText: 'Close'
+    });</script>";
+    unset($_SESSION['success']);
     unset($_SESSION['message']);
 }
 ?>
