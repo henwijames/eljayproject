@@ -110,10 +110,20 @@ ob_start();
             font-size: 20px;
             margin: 10px 0;
         }
+
+        .logoeh {
+            width: 200px;
+            height: 250px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
     <div class="title">
+
+        <img class="logoeh" src="logo.png" alt="">
         <h1>Lemery Colleges Inc.</h1>
         <h2>Yearbook <?php echo $row['year']?></h2>
         <h3></h3>
